@@ -3,9 +3,7 @@ use new_sLiga_DB;
 
 CREATE TABLE Categoria (
     categoriaId INT AUTO_INCREMENT PRIMARY KEY,
-    anioCategoria INT,
-    apellidoNombreJugador CHAR(50),
-    nombreEquipo CHAR(50)
+    anioCategoria INT
 );
 
 CREATE TABLE Coordinador (
@@ -14,13 +12,15 @@ CREATE TABLE Coordinador (
     fechaNacimiento DATE,
     dni INT,
     sexo CHAR(1),
+	edad INT,
     direccion CHAR(100),
     provincia CHAR(50),
     codigoPostal CHAR(10),
+	email CHAR(100),
     telefono BIGINT,
-    email CHAR(100),
-    directorTecnicoFanatico CHAR(100),
-    hinchaClub CHAR(50)
+	hinchaClub CHAR(50),
+    directorTecnicoFavorito CHAR(100),
+	cantidadProfesoresACargo INT
 );
 
 CREATE TABLE Equipo (
@@ -34,7 +34,8 @@ CREATE TABLE Equipo (
     cantidadPartidosPerdidos INT,
     cantidadGolesAFavor INT,
     cantidadGolesenContra INT,
-    diferenciadeGol INT
+    diferenciadeGol INT,
+    apellidoNombreProfesor CHAR(100)
 );
 
 CREATE TABLE Profesor (
@@ -43,19 +44,17 @@ CREATE TABLE Profesor (
     fechaNacimiento DATE,
     dni INT,
     sexo CHAR(1),
+	edad INT,
     direccion CHAR(100),
     provincia CHAR(50),
     codigoPostal CHAR(10),
-    telefono BIGINT,
     email CHAR(100),
-    categoriaDirigida INT,
-    equipoAsignado INT,
-    directorTecnicoFanatico CHAR(100),
+    telefono BIGINT,
     hinchaClub CHAR(50),
-    FOREIGN KEY (equipoAsignado) REFERENCES Equipo(equipoId)
+    categoriaDirigida INT,
+    directorTecnicoFavorito CHAR(100),
+    equipoAsignado CHAR(100)
 );
-
-
 
 CREATE TABLE Jugador (
     jugadorId INT AUTO_INCREMENT PRIMARY KEY,
@@ -72,36 +71,32 @@ CREATE TABLE Jugador (
 	hinchaClub CHAR(50),
     categoriaJugador INT,
     equipoAsignado CHAR(80),
-    nroCamisetaJugador INT,
-	equipoAsignadoId INT,
-	categoriaJugadorId INT,
-    FOREIGN KEY (categoriaJugadorId) REFERENCES Categoria(categoriaId),
-    FOREIGN KEY (equipoAsignadoId) REFERENCES Equipo(equipoId)
+    nroCamisetaJugador INT
 );
 
 CREATE TABLE Liga (
     ligaId INT AUTO_INCREMENT PRIMARY KEY,
     nombreLiga CHAR(100),
     nroFechaLiga INT,
-    equipoLocal INT,
-    equipoVisitante INT,
-    categoriaJugador INT,
-    fechaPartidoLiga DATE,
-    horaPartidoLiga INT,
-    equipoGanadorPartidoAsignado INT,
-    nroCamisetaJugador INT,
-    golesEquipoLocal INT,
-    golesEquipoVisitante INT,
-    FOREIGN KEY (equipoLocal) REFERENCES Equipo(equipoId),
-    FOREIGN KEY (equipoVisitante) REFERENCES Equipo(equipoId),
-    FOREIGN KEY (categoriaJugador) REFERENCES Categoria(categoriaId)
+    categoriaLiga INT,
+    equipo CHAR(100),
+	posicionEquipo INT
 );
 
 CREATE TABLE Fixture (
     fixtureId INT AUTO_INCREMENT PRIMARY KEY,
-    posicionEquipo INT,
     nombreEquipo CHAR(50),
-    cantidadPuntosEquipo INT,
-    ligaId INT,
-    FOREIGN KEY (ligaId) REFERENCES Liga(ligaId)
+    cantidadPuntosEquipo INT
+);
+
+CREATE TABLE Partido (
+	partidoId INT AUTO_INCREMENT PRIMARY KEY,
+    equipoLocal  CHAR(100),
+    equipoVisitante  CHAR(100),
+	categoria INT,
+    fechaPartido DATE,
+    horaPartido INT,
+    cantidadGolesEquipoLocal INT,
+    cantidadGolesEquipoVisitante INT,
+    equipoGanadorPartido  CHAR(100)
 );
